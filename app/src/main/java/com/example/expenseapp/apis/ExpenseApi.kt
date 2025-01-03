@@ -1,5 +1,7 @@
 package com.example.expenseapp.apis
 
+import com.example.expenseapp.data.Category
+import com.example.expenseapp.data.CreateExpenseRequest
 import com.example.expenseapp.data.Expense
 import com.example.expenseapp.data.UpdateExpenseStatusRequest
 import retrofit2.Response
@@ -12,8 +14,13 @@ interface ExpenseApi {
     @POST("/api/expenses/employee/{employeeId}/expense")
     suspend fun createExpense(
         @Path("employeeId") employeeId: Long,
-        @Body expense: Expense
+        @Body expense: CreateExpenseRequest
     ): Response<Expense>
+
+
+    @GET("/api/expenses/categories")
+    suspend fun getCategories(): Response<List<Category>>
+
 
     @PATCH("/api/expenses/status")
     suspend fun updateExpenseStatus(@Body request: UpdateExpenseStatusRequest): Response<String>

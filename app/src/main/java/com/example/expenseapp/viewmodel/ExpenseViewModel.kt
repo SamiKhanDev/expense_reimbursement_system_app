@@ -5,6 +5,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.expenseapp.data.Category
+import com.example.expenseapp.data.CreateExpenseRequest
 import com.example.expenseapp.data.Expense
 import com.example.expenseapp.data.UpdateExpenseStatusRequest
 import com.example.expenseapp.repository.ExpenseRepository
@@ -15,9 +17,26 @@ import javax.inject.Inject
 @HiltViewModel
 class ExpenseViewModel @Inject constructor(private val repository: ExpenseRepository) : ViewModel() {
 
+    private val _categories = mutableStateOf<List<Category>>(emptyList())
+    val categories: State<List<Category>> = _categories
+
+
     private val _expenses = mutableStateOf<List<Expense>>(emptyList())
     val expenses: State<List<Expense>> = _expenses
-
+    fun fetchCategories() {
+        viewModelScope.launch {
+            try {
+                val response = repository.getCategories()
+                if (response.isSuccessful) {
+                    _categories.value = response.body() ?: emptyList()
+                } else {
+                    // Handle API error
+                }
+            } catch (e: Exception) {
+                // Handle exception
+            }
+        }
+    }
     fun fetchPendingExpenses() {
         viewModelScope.launch {
             try {
@@ -34,10 +53,23 @@ class ExpenseViewModel @Inject constructor(private val repository: ExpenseReposi
     }
 
 
-    fun createExpense(employeeId: Long, expense: Expense) {
+    fun createExpense(employeeId: Long, expenseRequest: CreateExpenseRequest) {
         viewModelScope.launch {
-            repository.createExpense(employeeId, expense)
+            try {
+                val response = repository.createExpense(employeeId, expenseRequest)
+                if (response.isSuccessful) {
+                    // Handle success
+                    Log.d("ExpenseViewModel", "Expense created successfully")
+                } else {
+                    // Log the error body to get more details
+                    Log.e("ExpenseViewModel", "Error creating expense: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                // Log any exception that occurs
+                Log.e("ExpenseViewModel", "Exception: ${e.message}")
+            }
         }
+
     }
 
     fun updateExpenseStatus(request: UpdateExpenseStatusRequest) {
