@@ -11,11 +11,11 @@ interface ExpenseApi {
     @GET("/api/expenses/pending")
     suspend fun getPendingExpenses(): Response<List<Expense>>
 
-    @POST("/api/expenses/employee/{employeeId}/expense")
+    @POST("/api/expenses/expense")
     suspend fun createExpense(
-        @Path("employeeId") employeeId: Long,
         @Body expense: CreateExpenseRequest
     ): Response<Expense>
+
 
 
     @GET("/api/expenses/categories")

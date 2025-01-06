@@ -27,10 +27,12 @@ data class UpdateExpenseStatusRequest(
     val statusId: Long
 )
 data class CreateExpenseRequest(
+    val employeeId: Long,  // Add the employeeId field
     val amount: Double,
     val description: String,
     val category: CategoryRequest
 )
+
 
 data class CategoryRequest(
     val id: Int
