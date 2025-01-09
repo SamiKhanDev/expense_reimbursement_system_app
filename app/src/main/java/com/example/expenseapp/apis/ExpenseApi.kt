@@ -1,6 +1,7 @@
 package com.example.expenseapp.apis
 
 import com.example.expenseapp.data.Category
+import com.example.expenseapp.data.CategoryPackage
 import com.example.expenseapp.data.CreateExpenseRequest
 import com.example.expenseapp.data.Expense
 import com.example.expenseapp.data.UpdateExpenseStatusRequest
@@ -20,6 +21,9 @@ interface ExpenseApi {
 
     @GET("/api/expenses/categories")
     suspend fun getCategories(): Response<List<Category>>
+
+    @GET("/api/expenses/category")
+    suspend fun getCategoriesPackages():Response<List<CategoryPackage>>
 
 
     @PATCH("/api/expenses/status")

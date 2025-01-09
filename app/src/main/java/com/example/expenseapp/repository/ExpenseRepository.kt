@@ -15,6 +15,8 @@ class ExpenseRepository @Inject constructor(private val api: ExpenseApi) {
 
     suspend fun getCategories() = api.getCategories()
 
+    suspend fun getCategoriesPackage() = api.getCategoriesPackages()
+
     suspend fun createExpense(expenseRequest: CreateExpenseRequest): Response<Expense> {
         return api.createExpense(expenseRequest) // The employeeId will now be part of the request body
     }

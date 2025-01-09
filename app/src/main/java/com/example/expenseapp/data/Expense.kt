@@ -19,6 +19,11 @@ data class Expense(
      val name: String
 )
 
+data class CategoryPackage(
+    val id: Int,
+    val name: String
+)
+
 data class ExpenseCategory(
     val id: Int, val name: String)
 

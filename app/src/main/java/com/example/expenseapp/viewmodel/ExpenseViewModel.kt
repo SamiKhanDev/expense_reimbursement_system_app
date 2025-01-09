@@ -5,7 +5,9 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.expenseapp.data.Category
+import com.example.expenseapp.data.CategoryPackage
 import com.example.expenseapp.data.CreateExpenseRequest
 import com.example.expenseapp.data.Expense
 import com.example.expenseapp.data.UpdateExpenseStatusRequest
@@ -18,6 +20,8 @@ import javax.inject.Inject
 class ExpenseViewModel @Inject constructor(private val repository: ExpenseRepository) : ViewModel() {
 
     private val _categories = mutableStateOf<List<Category>>(emptyList())
+    private val _categoriesPackage= mutableStateOf<List<CategoryPackage>>(emptyList())
+    val categoriesPackage: State<List<CategoryPackage>> = _categoriesPackage
     val categories: State<List<Category>> = _categories
 
 
@@ -34,6 +38,23 @@ class ExpenseViewModel @Inject constructor(private val repository: ExpenseReposi
                 }
             } catch (e: Exception) {
                 // Handle exception
+            }
+        }
+    }
+    fun CategoriesPackage(){
+        viewModelScope.launch {
+            try {
+                val response = repository.getCategoriesPackage()
+                if (response.isSuccessful){
+                    _categoriesPackage.value = response.body() ?: emptyList()
+
+                }else{
+
+                }
+            }catch (
+                e:Exception
+            ){
+
             }
         }
     }
