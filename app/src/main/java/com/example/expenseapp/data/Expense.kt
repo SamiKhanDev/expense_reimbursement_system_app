@@ -31,11 +31,13 @@ data class UpdateExpenseStatusRequest(
     val expenseId: Long,
     val statusId: Long
 )
+//To align with the backend's expectations,
+// modify your CreateExpenseRequest class to include categoryId directly
 data class CreateExpenseRequest(
-    val employeeId: Long,  // Add the employeeId field
+    val employeeId: Long,
     val amount: Double,
     val description: String,
-    val category: CategoryRequest
+    val categoryId: Int
 )
 
 

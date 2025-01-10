@@ -1,5 +1,6 @@
 package com.example.expenseapp.expensescreen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -138,8 +139,8 @@ fun CreateExpense(
                 // Submit Button
                 Button(
                     onClick = {
-                        if (selectedCategory == null || employeeId.isBlank()) {
-                            // Show an error or toast message if any field isn't filled
+                        if (selectedCategory == null || employeeId.isBlank() || amount.isBlank() || description.isBlank()) {
+                            Log.e("CreateExpense", "All fields must be filled")
                             return@Button
                         }
 
@@ -147,10 +148,10 @@ fun CreateExpense(
                             employeeId = employeeId.toLong(),
                             amount = amount.toDoubleOrNull() ?: 0.0,
                             description = description,
-                            category = CategoryRequest(id = selectedCategory!!.id)
+                            //Modified CreateExpense composable function when creating the request
+                            categoryId = selectedCategory!!.id
                         )
 
-                        // Call the ViewModel to create the expense
                         viewModel.createExpense(expenseRequest)
                         onBack()
                     },
@@ -161,6 +162,7 @@ fun CreateExpense(
                 ) {
                     Text("Submit")
                 }
+
             }
         }
     )

@@ -27,20 +27,23 @@ class ExpenseViewModel @Inject constructor(private val repository: ExpenseReposi
 
     private val _expenses = mutableStateOf<List<Expense>>(emptyList())
     val expenses: State<List<Expense>> = _expenses
+
     fun fetchCategories() {
         viewModelScope.launch {
             try {
                 val response = repository.getCategories()
                 if (response.isSuccessful) {
                     _categories.value = response.body() ?: emptyList()
+                    Log.d("Categories", "Fetched categories: ${_categories.value}")
                 } else {
-                    // Handle API error
+                    Log.e("Categories", "Error: ${response.errorBody()?.string()}")
                 }
             } catch (e: Exception) {
-                // Handle exception
+                Log.e("Categories", "Exception: ${e.message}")
             }
         }
     }
+
     fun CategoriesPackage(){
         viewModelScope.launch {
             try {
@@ -56,6 +59,7 @@ class ExpenseViewModel @Inject constructor(private val repository: ExpenseReposi
             ){
 
             }
+
         }
     }
     fun fetchPendingExpenses() {
@@ -77,16 +81,14 @@ class ExpenseViewModel @Inject constructor(private val repository: ExpenseReposi
     fun createExpense(expenseRequest: CreateExpenseRequest) {
         viewModelScope.launch {
             try {
+                Log.d("CreateExpense", "ExpenseRequest: $expenseRequest")
                 val response = repository.createExpense(expenseRequest)
                 if (response.isSuccessful) {
-                    // Handle success
                     Log.d("ExpenseViewModel", "Expense created successfully")
                 } else {
-                    // Log the error body to get more details
                     Log.e("ExpenseViewModel", "Error creating expense: ${response.errorBody()?.string()}")
                 }
             } catch (e: Exception) {
-                // Log any exception that occurs
                 Log.e("ExpenseViewModel", "Exception: ${e.message}")
             }
         }
