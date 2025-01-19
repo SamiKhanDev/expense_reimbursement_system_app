@@ -21,7 +21,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.expenseapp.data.Category
-import com.example.expenseapp.data.CategoryRequest
 import com.example.expenseapp.data.CreateExpenseRequest
 import com.example.expenseapp.viewmodel.ExpenseViewModel
 
